@@ -17,11 +17,15 @@ public class RobotContainer {
   
   public RobotContainer() {
     SmartDashboard.putNumber("Shooter Voltage", 0);
+    SmartDashboard.putNumber("Shooter Hood Angle", 0.5);
     configureBindings();
   }
 
   private void configureBindings() {
-    joystick.a().whileTrue(turret.runVoltage(() -> SmartDashboard.getNumber("Shooter Voltage", 0)));
+    joystick.a().whileTrue(turret.runHoodAndShooterCommand(
+        () -> -SmartDashboard.getNumber("Shooter Voltage", 0),
+        () -> joystick.getLeftY()
+    ));
   }
 
   public Command getAutonomousCommand() {
